@@ -1,43 +1,38 @@
 /**
  * Created by HP on 29.08.2016.
  */
-var i= 0;
-document.getElementById("Plus").addEventListener("click", mySticker);
-function mySticker (event) {
-    var div = document.createElement("div");
-    div.className = "Sticker";
-    div.id = ("idSticker"+i++);
-    document.getElementById("Board").appendChild(div);
+var i = 0;
+document.getElementById("Plus").addEventListener("click", createNewSticker);
+function createNewSticker (event) {
+    var elementSticker = document.createElement("div");
+    elementSticker.className = "Sticker";
+    elementSticker.id = ("idSticker"+i++);
+    document.getElementById("Board").appendChild(elementSticker);
 }
 
-        document.getElementById("Board").addEventListener("mousedown", mouseDown);
-        function mouseDown(event) {
-            //var i = event.target.id;
-            var sticker = document.getElementById(event.target.id);
+document.getElementById("Board").addEventListener("mousedown", dragAndDrop);
+        function dragAndDrop(event) {
+            var currentSticker = document.getElementById(event.target.id);
             var board = document.getElementById("Board");
-            //var sticker = document.getElementsByClassName("Sticker")[i];
-
-
             if (event.target && event.target.matches(".Sticker")) {
-
                 function moveAt(event) {
-                    sticker.style.left = event.pageX - sticker.offsetWidth / 2 + 'px';
-                    sticker.style.top = event.pageY - sticker.offsetHeight / 2 + 'px';
+                    currentSticker.style.left = event.pageX - currentSticker.offsetWidth / 2 + 'px';
+                    currentSticker.style.top = event.pageY - currentSticker.offsetHeight / 2 + 'px';
 
                 }
 
-                sticker.style.position = "absolute";
+                currentSticker.style.position = "absolute";
                 moveAt(event);
-                sticker.style.zIndex = "1000";
+                currentSticker.style.zIndex = "1000";
 
 
                 document.onmousemove = function (e) {
                     moveAt(e);
                 }
 
-                sticker.onmouseup = function () {
+                currentSticker.onmouseup = function () {
                     document.onmousemove = null;
-                    sticker.onmouseup = null;
+                    currentSticker.onmouseup = null;
                 }
 
                 sticker.ondragstart = function () {
@@ -48,21 +43,18 @@ function mySticker (event) {
 
     }
 
- document.getElementById("Board").addEventListener("click", clickOnSticker);
-
-function clickOnSticker (event) {
-    var i = event.target.id;
-    var sticker = document.getElementById(i);
+document.getElementById("Board").addEventListener("click", addTextAreaToSticker);
+function addTextAreaToSticker (event) {
+    var currentSticker = event.target.id;
+    //var sticker = document.getElementById(i);
 
     if (event.target && event.target.matches(".Sticker")) {
         var textArea = document.createElement("TEXTAREA");
         textArea.className = "textAreaClass";
         var text = document.createTextNode("");
         textArea.appendChild(text);
-        var a = document.getElementById(i);
-        //var a = document.getElementsByClassName("Sticker");
-        a.appendChild(textArea);
-        //document.getElementById("idSticker").appendChild(textArea);
+        var catchedSticker = document.getElementById(currentSticker);
+        catchedSticker.appendChild(textArea);
 
 
     }
